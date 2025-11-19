@@ -63,7 +63,7 @@ long double integration(std::string path, long double lb, long double ub) {
 
 			delimiter_position = read.find(delimiter);
 			part_1 = read.substr(0, delimiter_position);
-			part_2 = read.substr(delimiter_position +1, read.length());
+			part_2 = read.substr(delimiter_position + 1, read.length());
 
 			try {
 				x = std::stold(part_1);
@@ -72,14 +72,14 @@ long double integration(std::string path, long double lb, long double ub) {
 			catch (const std::exception& e)
 			{
 				std::cerr << "Skipping invalid file " << path << ": " << std::endl;
-				break; 
+				break;
 			}
 
 			if (x >= lb && x <= ub) {
 				integral = integral + (0.5 * stold(part_2));
 				//std::cout << "i";
 			}
-			
+
 			//std::cout << std::endl;
 		}
 	}
@@ -99,6 +99,8 @@ long double find_max(std::string path) {
 
 	long double x_max = 0;
 	long double y_max = 0;
+	long double x = 0;
+	long double y = 0;
 
 	std::string read;
 	std::string part_1;
@@ -116,27 +118,37 @@ long double find_max(std::string path) {
 			part_1 = read.substr(0, delimiter_position);
 			part_2 = read.substr(delimiter_position + 1, read.length());
 
-			std::cout << stold(part_1) << "\t" << stold(part_2) << std::endl;
+			try {
+				x = std::stold(part_1);
+				y = std::stold(part_2);
+			}
+			catch (const std::exception& e)
+			{
+				std::cerr << "Skipping invalid file " << path << ": " << std::endl;
+				break;
+			}
+
+			std::cout << x << "\t" << y << std::endl;
 
 			if (std::stold(part_2) > y_max) {
-				x_max = std::stold(part_1);
-				y_max = std::stold(part_2);
+				x_max = x;
+				y_max = y;
 			}
 		}
 
-	
+
 
 	}
 
-	//std::cout << x_max << "\t" << y_max << std::endl;
+	std::cout << x_max << "\t" << y_max << std::endl;
 
 	return y_max;
 }
 
 long double find_intensity(std::string path, long double wavelenght) {
 
-	long double intensity = 0;
-	bool value_found = false;
+	long double x = 0;
+	long double y = 0;
 
 	std::string read;
 	std::string part_1;
@@ -154,21 +166,51 @@ long double find_intensity(std::string path, long double wavelenght) {
 			part_1 = read.substr(0, delimiter_position);
 			part_2 = read.substr(delimiter_position + 1, read.length());
 
-			std::cout << stold(part_1) << "\t" << stold(part_2) << std::endl;
-
-			if (std::stold(part_2) > y_max) {
-				x_max = std::stold(part_1);
-				y_max = std::stold(part_2);
+			try {
+				x = std::stold(part_1);
+				y = std::stold(part_2);
 			}
+			catch (const std::exception& e)
+			{
+				std::cerr << "Skipping invalid file " << path << ": " << std::endl;
+				break;
+			}
+
+			//std::cout << x << "\t" << y << std::endl;
+
+			if (x == wavelenght) {
+				return y;
+			}
+
 		}
-
-
 
 	}
 
-
-
-
+	std::cerr << "Wavelenght not found! : " << wavelenght << " in " << path << std::endl;
 
 	return 0;
+}
+
+void log(long double x, long double y, std::string path, bool log_path) {
+
+	std::ofstream file;
+	file.open("devcpp360nm_at 416.txt", std::ios::app);
+
+	if (file.is_open()) {
+		if (log_path) {
+			//file << x << "\t" << y << "\t" << path << "\n";
+			file << path << "\t" << y << "\n";
+		}
+		else {
+			//file << x << "\t" << y << "\n";
+		}
+	}
+
+	else {
+		std::cerr << "log fehlgeschlagen" << std::endl;
+
+	}
+
+	file.close();
+
 }
