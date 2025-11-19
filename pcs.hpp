@@ -52,8 +52,8 @@ long double integration(std::string path, long double lb, long double ub) {
 	std::string read;
 	std::string part_1;
 	std::string part_2;
-	std::string delimiter = "\t";
-	int delimiter_position = 0;
+	std::string delimiter = "\t"; // Trennzeichen der Daten
+	int delimiter_position = 0; // Gibt die Position des Trennzeichens im String read an
 
 	std::ifstream file;
 	file.open(path);
@@ -61,6 +61,8 @@ long double integration(std::string path, long double lb, long double ub) {
 
 		while (std::getline(file, read)) {
 
+			//Teile read in Spalten auf
+			
 			delimiter_position = read.find(delimiter);
 			part_1 = read.substr(0, delimiter_position);
 			part_2 = read.substr(delimiter_position + 1, read.length());
@@ -105,8 +107,8 @@ long double find_max(std::string path) {
 	std::string read;
 	std::string part_1;
 	std::string part_2;
-	std::string delimiter = "\t";
-	int delimiter_position = 0;
+	std::string delimiter = "\t"; // Trennzeichen der Daten
+	int delimiter_position = 0; // Gibt die Position des Trennzeichens im String read an
 
 	std::ifstream file;
 	file.open(path);
@@ -114,8 +116,10 @@ long double find_max(std::string path) {
 
 		while (std::getline(file, read)) {
 
-			delimiter_position = read.find(delimiter);
-			part_1 = read.substr(0, delimiter_position);
+			//Teile read in Spalten auf
+			
+			delimiter_position = read.find(delimiter); 
+			part_1 = read.substr(0, delimiter_position)
 			part_2 = read.substr(delimiter_position + 1, read.length());
 
 			try {
@@ -130,6 +134,8 @@ long double find_max(std::string path) {
 
 			std::cout << x << "\t" << y << std::endl;
 
+			//Finde das Maximum	
+			
 			if (std::stold(part_2) > y_max) {
 				x_max = x;
 				y_max = y;
@@ -153,14 +159,16 @@ long double find_intensity(std::string path, long double wavelenght) {
 	std::string read;
 	std::string part_1;
 	std::string part_2;
-	std::string delimiter = "\t";
-	int delimiter_position = 0;
+	std::string delimiter = "\t"; // Trennzeichen der Daten
+	int delimiter_position = 0; // Gibt die Position des Trennzeichens im String read an
 
 	std::ifstream file;
 	file.open(path);
 	if (file.is_open()) {
 
 		while (std::getline(file, read)) {
+
+			//Teile read in Spalten auf
 
 			delimiter_position = read.find(delimiter);
 			part_1 = read.substr(0, delimiter_position);
@@ -178,6 +186,8 @@ long double find_intensity(std::string path, long double wavelenght) {
 
 			//std::cout << x << "\t" << y << std::endl;
 
+			//Gebe Intensität bei der gesuchten Wellenlänge zurück
+			
 			if (x == wavelenght) {
 				return y;
 			}
@@ -214,4 +224,5 @@ void log(long double x, long double y, std::string path, bool log_path) {
 	file.close();
 
 }
+
 
