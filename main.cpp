@@ -3,9 +3,8 @@
 #include <filesystem>
 
 int main(void) {
-	int lower_bound = 330; //Untere Grenze der Intgration
-	int upper_bound = 500; //Obere Grenze der Intgration
 
+	std::string filename;
 	std::string path = "C:/";
 	std::vector<std::string> paths(0);
 	std::string line;
@@ -21,7 +20,7 @@ int main(void) {
 
 	path_write.close();
 
-	//Erstelle Vektor paths mit den Paths aller Dateien aus path.txt, lˆsche anschlieﬂend paths.txt
+	//Erstelle Vektor paths mit den Paths aller Dateien aus path.txt, l√∂sche anschlie√üend paths.txt
 
 	std::ifstream path_read; //Path read
 	path_read.open("paths.txt");
@@ -34,8 +33,15 @@ int main(void) {
 	path_read.close();
 	std::remove("paths.txt");
 
-	for (int i = 0; i < paths.size(); i++) {
-		std::cout << paths[i]  << "\t" <<integration(paths[i], lower_bound, upper_bound) <<std::endl;
+
+	for (size_t i = 0; i < paths.size(); i++) {
+
+		filename = paths[i].substr(paths[i].find("ph") + 2, paths[i].length());
+		filename = filename.substr(0, filename.length() - 10);
+		std::cout << filename << std::endl;
+		
+		log(416, find_intensity(paths[i], 416), filename, true);
+
 	}
 
 	return 0;
