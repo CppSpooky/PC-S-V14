@@ -7,7 +7,7 @@
 
 long double integration(std::string path, long double lb, long double ub) {
 
-	/*
+	/* Aufruf in main:
 	int lower_bound = 330; //Untere Grenze der Intgration
 	int upper_bound = 500; //Obere Grenze der Intgration
 
@@ -214,3 +214,4 @@ void log(long double x, long double y, std::string path, bool log_path) {
 	file.close();
 
 }
+
